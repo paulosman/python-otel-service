@@ -10,11 +10,14 @@ from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import SimpleExportSpanProcessor
 from opentelemetry.trace.propagation.textmap import DictGetter
 
+from opentelemetry.ext.honeycomb.sampling import DeterministicSampler
+
 from grpc import ssl_channel_credentials
 
 app = Flask(__name__)
 
-trace.set_tracer_provider(TracerProvider())
+sampler = DeterministicSampler(5)
+trace.set_tracer_provider(TracerProvider(sampler=sampler))
 tracer = trace.get_tracer_provider().get_tracer(__name__)
 
 otlp_exporter = OTLPSpanExporter(
