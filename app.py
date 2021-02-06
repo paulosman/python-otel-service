@@ -7,7 +7,7 @@ from opentelemetry.exporter.otlp.trace_exporter import OTLPSpanExporter
 
 from opentelemetry.instrumentation.wsgi import collect_request_attributes
 from opentelemetry.sdk.trace import TracerProvider
-from opentelemetry.sdk.trace.export import SimpleExportSpanProcessor
+from opentelemetry.sdk.trace.export import ConsoleSpanExporter, SimpleExportSpanProcessor
 from opentelemetry.trace.propagation.textmap import DictGetter
 
 from opentelemetry.ext.honeycomb.sampling import DeterministicSampler
@@ -30,6 +30,9 @@ otlp_exporter = OTLPSpanExporter(
     )
 )
 
+trace.get_tracer_provider().add_span_processor(
+    SimpleExportSpanProcessor(ConsoleSpanExporter())
+)
 trace.get_tracer_provider().add_span_processor(
     SimpleExportSpanProcessor(otlp_exporter)
 )
