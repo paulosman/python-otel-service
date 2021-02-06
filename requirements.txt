@@ -1,0 +1,5 @@
+flask==1.1.2
+opentelemetry-sdk==0.15b0
+opentelemetry-api==0.15b0
+opentelemetry-exporter-otlp==0.15b0
+grpcio==1.15.0
